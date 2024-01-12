@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oda Listesi</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+
+        .room-row {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .room-box {
+            width: 250px;
+            height: 250px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .room-box:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+        p {
+            margin: 5px 0 0;
+        }
+
+        .detail-button {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .detail-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+
+<div id="roomsList" class="room-row"></div>
+<div id="roomsList2" class="room-row"></div>
+<div id="roomsList3" class="room-row"></div>
+
+<script th:inline="javascript">
+    $(document).ready(function () {
+        // Sayfa yüklendiğinde çalışacak JavaScript kodu
+        $.ajax({
+            url: '/api/rooms',  // RoomDetailController'da belirttiğiniz endpoint
+            type: 'GET',
+            success: function (data) {
+                var roomsList = $('#roomsList');
+                var roomsList2 = $('#roomsList2');
+                var roomsList3 = $('#roomsList3');
+                var row;
+
+                for (var i = 0; i < data.length; i++) {
+                    var room = data[i];
+
+                    // Create a div for each room
+                    var roomDiv = $('<div>').addClass('room-box');
+
+                    // Add room details to the div
+                    roomDiv.append('<h3>Room ' + (i + 1) + '</h3>');
+                    roomDiv.append('<button class="detail-button" onclick="showRoomDetail(' + (i + 1) + ')">Details</button>');
+
+                    // Append the room div to the appropriate row
+                    if (i < 5) {
+                        row = roomsList;
+                    } else if (i < 10) {
+                        row = roomsList2;
+                    } else {
+                        row = roomsList3;
+                    }
+                    row.append(roomDiv);
+                }
+            },
+            error: function (error) {
+                console.error('Odaları çekerken hata oluştu:', error);
+            }
+        });
+    });
+</script>
+
+<script>
+    function showRoomDetail(roomNumber) {
+        $.ajax({
+            url: '/api/rooms/' + roomNumber,
+            type: 'GET',
+            contentType: 'application/json',
+            success: function (data) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Room ' + roomNumber+' Details',
+                    html: '<p>Price: ' + JSON.stringify(data.price) + ' TL</p>' +
+                        '<p>' + JSON.stringify(data.how_many_person) + ' Person</p>' +
+                        '<p>Description: ' + JSON.stringify(data.description) + '</p>',
+                });
+            },
+            error: function (error) {
+                console.error('Detaylar alınırken hata oluştu:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hata!',
+                    text: 'Detaylar alınırken bir hata oluştu',
+                });
+            }
+        });
+    }
+
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+</body>
+</html>
