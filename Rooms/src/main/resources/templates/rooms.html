@@ -147,11 +147,9 @@
             type: 'GET',
             crossDomain: true,
             success: function (data) {
-                // Başarı durumunda yapılacak işlemler
-                window.location.href = 'http://localhost:8080/reservation';
+                window.location.href = 'http://localhost:8080/reservation?roomNumber=' + roomNumber;
             },
             error: function (error) {
-                // Hata durumunda yapılacak işlemler
                 console.error('Hata:', error);
             }
         });

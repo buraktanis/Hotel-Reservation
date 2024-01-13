@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reservation</title>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -55,13 +57,18 @@
       background-color: #45a049;
     }
   </style>
+
 </head>
 <body>
 <h1>Reservation Details</h1>
 
 <form id="reservationForm">
+  <label for="roomNumber">Room Number:</label>
+  <input type="text" id="roomNumber" name="roomNumber" required disabled>
   <label for="customerName">Customer Name:</label>
   <input type="text" id="customerName" name="customerName" required>
+  <label for="customerEmail">Customer Email:</label>
+  <input type="text" id="customerEmail" name="customerEmail" required>
 
   <label for="startDate">Start Date:</label>
   <input type="date" id="startDate" name="startDate" required>
@@ -71,21 +78,64 @@
 
   <button type="button" onclick="submitReservation()">Submit Reservation</button>
 </form>
-
 <script th:inline="javascript">
-  // JavaScript ile roomNumber'ı al ve ekrana yaz
-  var roomNumber = /*[[${param.roomNumber}]]*/ null;
+  var roomNumber = /*[[${roomNumber}]]*/ null;
   if (roomNumber) {
-    document.getElementById('roomNumber').innerText = roomNumber;
-  }
 
-  function submitReservation() {
-    var customerName = document.getElementById('customerName').value;
-    var startDate = document.getElementById('startDate').value;
-    var endDate = document.getElementById('endDate').value;
-
+    document.getElementById('roomNumber').value = roomNumber;
 
   }
 </script>
+<script th:inline="javascript">
+
+
+  function submitReservation() {
+
+    var roomnumber = document.getElementById('roomNumber').value;
+    var customerName = document.getElementById('customerName').value;
+    var customerEmail = document.getElementById('customerEmail').value;
+    var startDate = document.getElementById('startDate').value;
+    var endDate = document.getElementById('endDate').value;
+
+    var reservationData = {
+      room: roomnumber,
+      user: customerName,
+      startdate: startDate,
+      enddate: endDate,
+      email: customerEmail
+    };
+
+    $.ajax({
+      url: '/api/reservation/save',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(reservationData),
+      success: function (data) {
+        // SweetAlert2 ile başarı mesajını göster
+        Swal.fire({
+          icon: 'success',
+          title: 'Rezervasyon Başarılı!',
+          text: 'Rezervasyonunuz başarıyla kaydedildi.'
+        });
+
+        // Başarı durumunda yapılacak işlemler
+      },
+      error: function (error) {
+        // SweetAlert2 ile hata mesajını göster
+        Swal.fire({
+          icon: 'error',
+          title: 'Hata!',
+          text: 'Rezervasyon sırasında bir hata oluştu.'
+        });
+
+        console.error('Rezervasyon kaydı sırasında bir hata oluştu:', error);
+        // Hata durumunda yapılacak işlemler
+      }
+    });
+
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 </body>
 </html>
