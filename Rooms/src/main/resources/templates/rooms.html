@@ -184,37 +184,21 @@
     function reservation(roomNumber) {
         // Reservation için POST isteği oluştur
         $.ajax({
-            url: 'http://localhost:8080/api/reservation/save', // Reservation uygulamanızın portunu kontrol edin
+            url: reservationApiUrl,
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify(reservationData),
+            data: JSON.stringify({
+                roomNumber: roomNumber,
+                // Diğer gerekli bilgileri burada ekleyebilirsiniz
+            }),
             success: function (data) {
-                // SweetAlert2 ile başarı mesajını göster
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Rezervasyon Başarılı!',
-                    text: 'Rezervasyonunuz başarıyla kaydedildi.',
-                    onAfterClose: function () {
-                        // Başarı durumunda yapılacak işlemler
-
-                        // Ana sayfaya yönlendir
-                        window.location.href = 'http://localhost:8081/home'; // kendi URL'nizi buraya ekleyin
-                    }
-                });
+                // Başarılı bir şekilde rezervasyon yapıldığında yapılacak işlemler
+                alert('Rezervasyon başarıyla yapıldı!');
             },
             error: function (error) {
-                // SweetAlert2 ile hata mesajını göster
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Hata!',
-                    text: 'Rezervasyon sırasında bir hata oluştu.',
-                    onAfterClose: function () {
-                        // Hata durumunda yapılacak işlemler
-                        // Buraya hata durumunda yapılacak işlemleri ekleyebilirsiniz
-                    }
-                });
-
-                console.error('Rezervasyon kaydı sırasında bir hata oluştu:', error);
+                // Rezervasyon sırasında bir hata oluştuğunda yapılacak işlemler
+                console.error('Rezervasyon yapılırken hata oluştu:', error);
+                alert('Rezervasyon yapılırken hata oluştu');
             }
         });
     }

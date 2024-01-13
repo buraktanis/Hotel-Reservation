@@ -115,38 +115,21 @@
         Swal.fire({
           icon: 'success',
           title: 'Rezervasyon Başarılı!',
-          text: 'Rezervasyonunuz başarıyla kaydedildi.',
-          onAfterClose: function() {
-            // Başarı durumunda yapılacak işlemler
-
-            // Ana sayfaya dönme düğmesini ekle
-            var returnButton = '<button id="returnToHomeButton">Go back to Homepage</button>';
-            Swal.fire({
-              html: returnButton,
-              showConfirmButton: false,
-            });
-
-            // Düğmeye tıklama etkinliğini ekle
-            $('#returnToHomeButton').click(function() {
-              // Ana sayfaya yönlendir, bunu kendi ana sayfa URL'nizle değiştirin
-              window.location.href = '/';
-            });
-          }
+          text: 'Rezervasyonunuz başarıyla kaydedildi.'
         });
+
+        // Başarı durumunda yapılacak işlemler
       },
       error: function (error) {
         // SweetAlert2 ile hata mesajını göster
         Swal.fire({
           icon: 'error',
           title: 'Hata!',
-          text: 'Rezervasyon sırasında bir hata oluştu.',
-          onAfterClose: function() {
-            // Hata durumunda yapılacak işlemler
-            // Buraya hata durumunda yapılacak işlemleri ekleyebilirsiniz
-          }
+          text: 'Rezervasyon sırasında bir hata oluştu.'
         });
 
         console.error('Rezervasyon kaydı sırasında bir hata oluştu:', error);
+        // Hata durumunda yapılacak işlemler
       }
     });
 
