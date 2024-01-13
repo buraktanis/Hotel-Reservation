@@ -17,17 +17,13 @@ public class RoomController {
     @Autowired
     private RoomService roomService;
 
-    @GetMapping("/rooms")
+    @GetMapping("/home")
     public String showRoomsPage() {
 
         return "rooms";
     }
 
-    @GetMapping("/users/{id}")
-    public Rooms getRoom(@PathVariable Integer id) throws ExecutionException, InterruptedException {
 
-        return roomService.getRoomDetails(id);
-    }
 
 
 
