@@ -17,10 +17,10 @@ public class ReservationServiceTest {
 
         Reservations reservation = new Reservations();
         reservation.setUser("TestUser");
-        when(reservationService.saveUser(reservation)).thenReturn("2022-01-01T12:00:00Z");
+        when(reservationService.saveUser(reservation)).thenReturn("2022-01-01");
 
         String result = reservationService.saveUser(reservation);
-        assertEquals("2022-01-01T12:00:00Z", result);
+        assertEquals("2022-01-01", result);
     }
 
 
