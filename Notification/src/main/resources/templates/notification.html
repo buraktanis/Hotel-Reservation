@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Reservation Information</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #reservationDetails {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #555;
+        }
+
+        strong {
+            font-weight: bold;
+            color: black;
+        }
+
+        span {
+            color: #333;
+        }
+
+        #emailbutton {
+            text-align: center;
+        }
+
+        #sendEmailButton {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="reservationDetails">
+    <h1>Reservation Information</h1>
+    <p><strong>Room Number:</strong> <span id="roomNumber"></span></p>
+    <p><strong>User:</strong> <span id="userName"></span></p>
+    <p><strong>Email:</strong> <span id="userEmail"></span></p>
+    <p><strong>Start Date:</strong> <span id="startDate"></span></p>
+    <p><strong>End Date:</strong> <span id="endDate"></span></p>
+
+    <button style="margin-top: 10px" id="sendEmailButton">Send Booking Information to My Email</button>
+
+</div>
+
+
+
+<script th:inline="javascript">
+    var roomNumber = /*[[${roomNumber}]]*/ null;
+    var user = /*[[${user}]]*/ null;
+    var email = /*[[${email}]]*/ null;
+    var startdate = /*[[${startdate}]]*/ null;
+    var enddate = /*[[${enddate}]]*/ null;
+
+    if (roomNumber) {
+        // Update the HTML elements with reservation details
+        document.getElementById("roomNumber").innerText = roomNumber;
+        document.getElementById("userName").innerText = user;
+        document.getElementById("userEmail").innerText = email;
+        document.getElementById("startDate").innerText = startdate;
+        document.getElementById("endDate").innerText = enddate;
+    }
+
+    // Handle button click event
+    document.getElementById("sendEmailButton").addEventListener("click", function () {
+        // Add your logic to send booking information to the user's email
+        // For example, using jQuery to make an AJAX request
+        $.ajax({
+            url: '/api/notification/sendemail',
+            type: 'POST',
+            success: function () {
+                // Handle success of the API request
+                alert("Booking information sent to your email!");
+            },
+            error: function (error) {
+                // Handle error of the API request
+                console.error('Error sending email:', error);
+            }
+        });
+    });
+</script>
+</body>
+</html>

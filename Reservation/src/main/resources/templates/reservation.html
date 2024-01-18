@@ -116,39 +116,37 @@
           icon: 'success',
           title: 'Rezervasyon Başarılı!',
           text: 'Rezervasyonunuz başarıyla kaydedildi.',
-          onAfterClose: function() {
-            // Başarı durumunda yapılacak işlemler
-
-            // Ana sayfaya dönme düğmesini ekle
-            var returnButton = '<button id="returnToHomeButton">Go back to Homepage</button>';
-            Swal.fire({
-              html: returnButton,
-              showConfirmButton: false,
+          showCancelButton: true,
+          confirmButtonText: 'Show Reservation Info'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Trigger the second Ajax request here after the user clicks "Show Reservation Info"
+            $.ajax({
+              url: 'http://localhost:8082/notification?roomNumber=' + roomnumber + '&user=' + customerName + '&email=' + customerEmail + '&startdate=' + startDate + '&enddate=' + endDate,
+              type: 'GET',
+              contentType: 'application/json',
+              data: JSON.stringify(data),
+              success: function (data) {
+                // Handle success of the second request
+                window.location.href = 'http://localhost:8082/notification?roomNumber=' + roomnumber + '&user=' + customerName + '&email=' + customerEmail + '&startdate=' + startDate + '&enddate=' + endDate;
+              },
+              error: function (error) {
+                // Handle error of the second request
+                console.error('Error in second request:', error);
+              }
             });
-
-            // Düğmeye tıklama etkinliğini ekle
-            $('#returnToHomeButton').click(function() {
-              // Ana sayfaya yönlendir, bunu kendi ana sayfa URL'nizle değiştirin
-              window.location.href = '/';
-            });
+          }
+          else {
+            window.location.href = "http://localhost:8081/home"
           }
         });
       },
       error: function (error) {
-        // SweetAlert2 ile hata mesajını göster
-        Swal.fire({
-          icon: 'error',
-          title: 'Hata!',
-          text: 'Rezervasyon sırasında bir hata oluştu.',
-          onAfterClose: function() {
-            // Hata durumunda yapılacak işlemler
-            // Buraya hata durumunda yapılacak işlemleri ekleyebilirsiniz
-          }
-        });
-
-        console.error('Rezervasyon kaydı sırasında bir hata oluştu:', error);
+        // Handle error of the first request
+        console.error('Error in first request:', error);
       }
     });
+
 
   }
 </script>
