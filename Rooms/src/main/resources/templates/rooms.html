@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oda Listesi</title>
+    <title>Room List</title>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <style>
@@ -75,13 +75,13 @@
         }
 
         .reservation-button {
-            background-color: #2196F3; /* Farklı bir renk seçebilirsiniz */
-            left: 50%; /* Book butonunu ortalamak için */
-            margin-left: -75px; /* Button genişliği 150px olduğu için yarı genişliği kadar sola kaydır */
+            background-color: #2196F3;
+            left: 50%;
+            margin-left: -75px;
         }
 
         .reservation-button:hover {
-            background-color: #0b7dda; /* Farklı bir hover renk seçebilirsiniz */
+            background-color: #0b7dda;
         }
     </style>
 </head>
@@ -96,7 +96,7 @@
     $(document).ready(function () {
         // Sayfa yüklendiğinde çalışacak JavaScript kodu
         $.ajax({
-            url: '/api/room/rooms',  // RoomDetailController'da belirttiğiniz endpoint
+            url: '/api/room/rooms',
             type: 'GET',
             success: function (data) {
                 var roomsList = $('#roomsList');
@@ -120,7 +120,7 @@
 
                     roomDiv.append(buttonsDiv);
 
-                    // Append the room div to the appropriate row
+
                     if (i < 5) {
                         row = roomsList;
                     } else if (i < 10) {
@@ -141,7 +141,7 @@
 </script>
 
 <script>
-    function bookRoom(roomNumber) {
+    function bookRoom(roomNumber) { // reservation service'e yönlendirmek için request
         $.ajax({
             url: 'http://localhost:8080/reservation?roomNumber=' + roomNumber,
             type: 'GET',
@@ -172,36 +172,16 @@
                 });
             },
             error: function (error) {
-                console.error('Detaylar alınırken hata oluştu:', error);
+                console.error('Error:', error);
                 Swal.fire({
                     icon: 'error',
-                    title: 'Hata!',
-                    text: 'Detaylar alınırken bir hata oluştu',
+                    title: 'Error!',
+                    text: 'Error',
                 });
             }
         });
     }
-    function reservation(roomNumber) {
-        // Reservation için POST isteği oluştur
-        $.ajax({
-            url: reservationApiUrl,
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                roomNumber: roomNumber,
-                // Diğer gerekli bilgileri burada ekleyebilirsiniz
-            }),
-            success: function (data) {
-                // Başarılı bir şekilde rezervasyon yapıldığında yapılacak işlemler
-                alert('Rezervasyon başarıyla yapıldı!');
-            },
-            error: function (error) {
-                // Rezervasyon sırasında bir hata oluştuğunda yapılacak işlemler
-                console.error('Rezervasyon yapılırken hata oluştu:', error);
-                alert('Rezervasyon yapılırken hata oluştu');
-            }
-        });
-    }
+
 
 
 </script>

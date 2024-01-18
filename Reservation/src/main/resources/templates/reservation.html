@@ -111,27 +111,24 @@
       contentType: 'application/json',
       data: JSON.stringify(reservationData),
       success: function (data) {
-        // SweetAlert2 ile başarı mesajını göster
         Swal.fire({
           icon: 'success',
-          title: 'Rezervasyon Başarılı!',
-          text: 'Rezervasyonunuz başarıyla kaydedildi.',
+          title: 'Reservation successfull!',
+          text: 'Your reservation saved successfully.',
           showCancelButton: true,
           confirmButtonText: 'Show Reservation Info'
         }).then((result) => {
           if (result.isConfirmed) {
-            // Trigger the second Ajax request here after the user clicks "Show Reservation Info"
+            // Show reservation info butonuna bastığında notification microservice'ine yönlendirme
             $.ajax({
               url: 'http://localhost:8082/notification?roomNumber=' + roomnumber + '&user=' + customerName + '&email=' + customerEmail + '&startdate=' + startDate + '&enddate=' + endDate,
               type: 'GET',
               contentType: 'application/json',
               data: JSON.stringify(data),
               success: function (data) {
-                // Handle success of the second request
                 window.location.href = 'http://localhost:8082/notification?roomNumber=' + roomnumber + '&user=' + customerName + '&email=' + customerEmail + '&startdate=' + startDate + '&enddate=' + endDate;
               },
               error: function (error) {
-                // Handle error of the second request
                 console.error('Error in second request:', error);
               }
             });
@@ -142,7 +139,6 @@
         });
       },
       error: function (error) {
-        // Handle error of the first request
         console.error('Error in first request:', error);
       }
     });

@@ -83,7 +83,7 @@
     var enddate = /*[[${enddate}]]*/ null;
 
     if (roomNumber) {
-        // Update the HTML elements with reservation details
+        // Reservation microservice'ten gelen değerleri alma ve ekrana yazdırma
         document.getElementById("roomNumber").innerText = roomNumber;
         document.getElementById("userName").innerText = user;
         document.getElementById("userEmail").innerText = email;
@@ -91,7 +91,7 @@
         document.getElementById("endDate").innerText = enddate;
     }
 
-    // Handle button click event
+    // Email gönderme
     document.getElementById("sendEmailButton").addEventListener("click", function () {
 
         var roomNumber = document.getElementById("roomNumber").innerText;
@@ -104,7 +104,7 @@
         console.log(email)
         console.log(startdate)
         console.log(enddate)
-        // API'ye gönderilecek veriler
+
         var requestData = {
             roomNumber: roomNumber,
             user: user,
@@ -113,18 +113,15 @@
             enddate: enddate
         };
 
-        // jQuery AJAX isteği
         $.ajax({
             url: '/api/notification/sendemail',
             type: 'POST',
-            contentType: 'application/json', // Veri türünü belirtiyoruz
-            data: JSON.stringify(requestData), // Veriyi JSON formatına çeviriyoruz
+            contentType: 'application/json',
+            data: JSON.stringify(requestData),
             success: function () {
-                // API isteği başarılı olduğunda yapılacak işlemler
                 alert("Booking information sent to your email!");
             },
             error: function (error) {
-                // API isteği hata döndüğünde yapılacak işlemler
                 console.error('Error sending email:', error);
             }
         });
