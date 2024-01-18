@@ -17,8 +17,8 @@ public class EmailController {
     @Autowired
     private NotificationService notificationService;
     @PostMapping("/sendemail")
-    public String saveUser() throws ExecutionException, InterruptedException {
-        return notificationService.sendEmail("btans85@gmail.com","deneme","merhaba");
+    public String saveUser(@RequestBody Notifications notifications) throws ExecutionException, InterruptedException {
+        return notificationService.sendEmail(notifications);
     }
 }
 

@@ -17,9 +17,9 @@ public class ReservationServiceTest {
 
         Reservations reservation = new Reservations();
         reservation.setUser("TestUser");
-        when(reservationService.saveUser(reservation)).thenReturn("2022-01-01");
+        when(reservationService.saveReservation(reservation)).thenReturn("2022-01-01");
 
-        String result = reservationService.saveUser(reservation);
+        String result = reservationService.saveReservation(reservation);
         assertEquals("2022-01-01", result);
     }
 

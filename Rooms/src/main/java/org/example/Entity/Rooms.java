@@ -1,10 +1,18 @@
 package org.example.Entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+@Schema(name="Rooms", description = "Author Entity")
+
 public class Rooms {
 
     private Integer id;
+
     private Integer how_many_person;
     private Integer price;
+    @Schema(description="Name of room", example = "Orhan")
+
     private String description;
 
     public Integer getId() {

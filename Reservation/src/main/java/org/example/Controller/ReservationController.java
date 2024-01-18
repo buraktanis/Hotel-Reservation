@@ -17,7 +17,7 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
     @PostMapping("/save")
-    public String saveUser(@RequestBody Reservations reservation) throws ExecutionException, InterruptedException {
-        return reservationService.saveUser(reservation);
+    public String saveReservation(@RequestBody Reservations reservation) throws ExecutionException, InterruptedException {
+        return reservationService.saveReservation(reservation);
     }
 }

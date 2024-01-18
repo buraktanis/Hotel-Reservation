@@ -93,21 +93,43 @@
 
     // Handle button click event
     document.getElementById("sendEmailButton").addEventListener("click", function () {
-        // Add your logic to send booking information to the user's email
-        // For example, using jQuery to make an AJAX request
+
+        var roomNumber = document.getElementById("roomNumber").innerText;
+        var user = document.getElementById("userName").innerText;
+        var email = document.getElementById("userEmail").innerText;
+        var startdate = document.getElementById("startDate").innerText;
+        var enddate = document.getElementById("endDate").innerText;
+        console.log(roomNumber)
+        console.log(user)
+        console.log(email)
+        console.log(startdate)
+        console.log(enddate)
+        // API'ye gönderilecek veriler
+        var requestData = {
+            roomNumber: roomNumber,
+            user: user,
+            email: email,
+            startdate: startdate,
+            enddate: enddate
+        };
+
+        // jQuery AJAX isteği
         $.ajax({
             url: '/api/notification/sendemail',
             type: 'POST',
+            contentType: 'application/json', // Veri türünü belirtiyoruz
+            data: JSON.stringify(requestData), // Veriyi JSON formatına çeviriyoruz
             success: function () {
-                // Handle success of the API request
+                // API isteği başarılı olduğunda yapılacak işlemler
                 alert("Booking information sent to your email!");
             },
             error: function (error) {
-                // Handle error of the API request
+                // API isteği hata döndüğünde yapılacak işlemler
                 console.error('Error sending email:', error);
             }
         });
     });
+
 </script>
 </body>
 </html>

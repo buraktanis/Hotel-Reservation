@@ -5,7 +5,7 @@ import java.util.Date;
 public class Notifications {
 
     private String user;
-    private Integer room;
+    private String room;
     private Date startdate;
     private Date enddate;
     private String email;
@@ -28,11 +28,11 @@ public class Notifications {
         this.user = user;
     }
 
-    public Integer getRoom() {
+    public String getRoom() {
         return room;
     }
 
-    public void setRoom(Integer room) {
+    public void setRoom(String room) {
         this.room = room;
     }
 

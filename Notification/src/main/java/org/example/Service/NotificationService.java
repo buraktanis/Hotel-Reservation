@@ -1,5 +1,6 @@
 package org.example.Service;
 
+import org.example.Entity.Notifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -9,18 +10,21 @@ import org.springframework.stereotype.Service;
 public class NotificationService {
 
 
-        @Autowired
-        private JavaMailSender javaMailSender;
 
-        public String sendEmail(String to, String subject, String body) {
+        @Autowired
+        private JavaMailSender mailSender;
+
+        public String sendEmail(Notifications notifications) {
+
+
 
             try {
                 SimpleMailMessage message = new SimpleMailMessage();
-                message.setTo("bburaktaniss@gmail.com");
-                message.setSubject("deneme");
-                message.setText("merhaba");
+                message.setTo(notifications.getEmail());
+                message.setSubject("Your Reservation Information");
+                message.setText("Merhaba " +notifications.getUser()+ "\nYour room: "+notifications.getRoom()+ " \nReservation start date:" +notifications.getStartdate()+ "\nReservation end date:" + notifications.getEnddate());
 
-                javaMailSender.send(message);
+                mailSender.send(message);
                 return "Email sent succcessfully";
             }
             catch (Exception e) {

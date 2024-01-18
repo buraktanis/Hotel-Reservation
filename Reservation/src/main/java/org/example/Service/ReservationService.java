@@ -14,7 +14,7 @@ public class ReservationService {
 
     private static final String COLLECTION_NAME = "reservations";
 
-    public String saveUser(Reservations reservation) throws ExecutionException, InterruptedException {
+    public String saveReservation(Reservations reservation) throws ExecutionException, InterruptedException {
 
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> collectionApiFuture =  dbFirestore.collection(COLLECTION_NAME).document().set(reservation);

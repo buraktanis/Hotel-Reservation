@@ -1,5 +1,8 @@
 package org.example.Controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.example.Entity.Rooms;
 import org.example.Service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +25,11 @@ public class RoomDetailController {
     public List<Rooms> getAllRooms() throws ExecutionException, InterruptedException {
         return roomService.getAllRooms();
     }
-
+    @Operation(description="return author infor by give author id")
+    @ApiResponse(responseCode = "200", description = "Successful")
     @GetMapping("/rooms/{id}")
-    public Rooms getRoom(@PathVariable Integer id) throws ExecutionException, InterruptedException {
+    public Rooms getRoom(@Parameter(name="id",description = "Author id", required = true)
+                             @PathVariable Integer id) throws ExecutionException, InterruptedException {
 
         return roomService.getRoomDetails(id);
     }
